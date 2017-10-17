@@ -8,7 +8,6 @@ struct node{
   struct node *next;
 };
 
-
 struct node * insert_front(struct node * old_front, char* art, char * nam) {
   struct node * new_front;
   //printf("made new_front\n");
@@ -24,27 +23,27 @@ struct node * insert_front(struct node * old_front, char* art, char * nam) {
 
 struct node * insert_order(struct node * old_front, char* art, char * nam) {
   struct node * new_node;//pointer to new node
-  printf("made new_front\n");
+  //  printf("made new_front\n");
   new_node=(struct node *)malloc(sizeof(struct node));//mallocs memory
-  printf("malloc successful\n");
+  //  printf("malloc successful\n");
   strcpy(new_node->artist, art);
   strcpy(new_node->name, nam);
-  printf("strcpy successful\n");
+  // printf("strcpy successful\n");
   
   while (old_front) {//if old_front is null it breaks loop
-    printf("while loop started\n");
+    // printf("while loop started\n");
     if (! strcmp(art, old_front->artist)) {//if artists equal
       
       if (strcmp(nam, old_front->name) > 0) {//if song should be inserted after current song
 	new_node->next = old_front->next;
 	old_front->next = new_node;
-	printf("insert_order successful if 1\n");
+	//	printf("insert_order successful if 1\n");
 	return new_node;
       }
       else if (strcmp(art, old_front->artist)<0) {//song is at end of artist alphabetically
 	new_node->next = old_front->next;
 	old_front->next = new_node;
-	printf("insert_order successful if 2\n");
+	//	printf("insert_order successful if 2\n");
 	return new_node;
       }
     }
@@ -52,28 +51,58 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
     else if ((strcmp(art, old_front->artist) > 0) && ( !old_front->next || strcmp(art,old_front->next->artist)<0)) {//if new artist to be inserted is later in alphabet than current
       new_node->next = old_front->next;
       old_front->next=new_node;
-      printf("insert_order successful if 3\n");
+      //   printf("insert_order successful if 3\n");
       return new_node;
       //do the same as ^^^^
     }
     old_front=old_front->next;
-    printf("loop gone through once\n");
+    //  printf("loop gone through once\n");
   }
-  printf("loop ended\n");
+  //printf("loop ended\n");
   //means it is null
   old_front=new_node;
   old_front->next=0;
-  printf("insert_order successful end\n");
+  //  printf("insert_order successful end\n");
   return new_node;
   //new_node->next=old_front;
 
 }
 
+struct node * src_song (char * art, char  * nam, struct node* list) {
+  while (list) {
+    if (! strcmp (list -> artist, art) && ! strcmp (list -> name, nam)) {
+      printf("src song worked\n");
+      return list;
+    }
+    list = list-> next;
+  }
+  printf("fault");
+  return list;
+}
+
+struct node * src_artist (char * art, struct node* list) {
+  while (list) {
+    if (! strcmp(list->artist,art))
+      return list;
+    list=list->next;
+  }
+  return list;
+}
+//MAKE THIS GOOD LATER 
+int list_size (struct node* list) {
+  int i = 0;
+  while (list) {
+    i++;
+    list = list -> next;
+  }
+  return i;
+}
+
 void print_list(struct node * list) {
 
-  printf("FRONT\n");
+  printf("FRONT |\n");
   while (list) {
-    printf("Artist: %s | Song: %s\n",list->artist,list->name);
+    printf("Artist: %s, Song: %s | ",list->artist,list->name);
     list=list->next;
   }
 
@@ -109,6 +138,14 @@ int main() {
 
   printf("\nPrinting many element list:\n");
   print_list(test);
+
+  printf("Searching for AC\\DC Problem Child\n");
+  struct node * child=src_song("AC\\DC","Problem Child",test);
+  printf("child made\n");
+  printf("Song is: %s | Artist is %s\n ",child->name,child->artist);
+  child=src_artist("Arcade Fire",test);
+  printf("Song is: %s | Artist is %s\n",child->name,child->artist);
+  printf("Size of list is %d\n", list_size(test));
   /*  printf("\nPrinting freed list\n");
       test=free_list(test);
       print_list(test);*/
