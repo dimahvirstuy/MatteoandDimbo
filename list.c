@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 struct node{ 
   char name[256];
@@ -71,12 +72,12 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
 struct node * src_song (char * art, char  * nam, struct node* list) {
   while (list) {
     if (! strcmp (list -> artist, art) && ! strcmp (list -> name, nam)) {
-      printf("src song worked\n");
+      //printf("src song worked\n");
       return list;
     }
     list = list-> next;
   }
-  printf("fault");
+  //printf("fault");
   return list;
 }
 
@@ -98,15 +99,29 @@ int list_size (struct node* list) {
   return i;
 }
 
+struct node * rand_song(struct node * list) {
+  int i = list_size(list);
+  while (list->next) {
+    if (!(rand()%i))
+      return list;
+    list=list->next;
+  }
+  return list;
+}
+
 void print_list(struct node * list) {
 
-  printf("FRONT |\n");
+  printf("FRONT | ");
   while (list) {
-    printf("Artist: %s, Song: %s | ",list->artist,list->name);
+    printf("%s: %s | ",list->artist,list->name);
     list=list->next;
   }
 
   printf("END\n");
+}
+
+void print_node(struct node * n) {
+  printf("%s: %s\n",n->artist, n->name);
 }
 
 /*struct node * free_list(struct node * list) {
@@ -121,7 +136,7 @@ void print_list(struct node * list) {
   }*/
 
 int main() {
-
+  srand(time(NULL));
 
   struct node * test=0;
   printf("Printing empty list:\n");
@@ -138,16 +153,22 @@ int main() {
 
   printf("\nPrinting many element list:\n");
   print_list(test);
+  printf("\n");
 
   printf("Searching for AC\\DC Problem Child\n");
   struct node * child=src_song("AC\\DC","Problem Child",test);
-  printf("child made\n");
-  printf("Song is: %s | Artist is %s\n ",child->name,child->artist);
+  //printf("child made\n");
+  printf("Song is: %s | Artist is %s\n",child->name,child->artist);
+  printf("Searching for Arcade Fire\n");
   child=src_artist("Arcade Fire",test);
   printf("Song is: %s | Artist is %s\n",child->name,child->artist);
-  printf("Size of list is %d\n", list_size(test));
-  /*  printf("\nPrinting freed list\n");
-      test=free_list(test);
-      print_list(test);*/
+  printf("Size of list is %d\n\n", list_size(test));
+
+  printf("Random songs:\n");
+  print_node(rand_song(test));
+  print_node(rand_song(test));
+  print_node(rand_song(test));
+
+  
   return 0;
 }
