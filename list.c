@@ -81,6 +81,20 @@ struct node * src_song (char * art, char  * nam, struct node* list) {
   return list;
 }
 
+void remove_song (char* art, char* nam, struct node* list){
+  while (list->next) {
+    if (! strcmp(list->next->artist,art) && ! strcmp(list->next->name,nam)){
+      struct node * temp = list ->next;
+      list->next=temp->next;
+      free(temp);
+      return;
+    }
+    list=list->next;
+  }
+    
+  
+}
+
 struct node * src_artist (char * art, struct node* list) {
   while (list) {
     if (! strcmp(list->artist,art))
@@ -168,6 +182,11 @@ int main() {
   print_node(rand_song(test));
   print_node(rand_song(test));
   print_node(rand_song(test));
+
+  printf("Removing Problem Child and Rolling in the Deep\n");
+  remove_song("AC\\DC","Problem Child",test);
+  remove_song("Adele","Rolling In The Deep",test);
+  print_list(test);
 
   
   return 0;
