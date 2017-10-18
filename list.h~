@@ -1,0 +1,5 @@
+struct node{ 
+  char name[256];
+  char artist[256];
+  struct node *next;
+};
