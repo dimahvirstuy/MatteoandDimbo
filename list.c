@@ -138,7 +138,7 @@ void print_node(struct node * n) {
   printf("%s: %s\n",n->artist, n->name);
 }
 
-/*struct node * free_list(struct node * list) {
+struct node * free_list(struct node * list) {
   while (list) {
   struct node * temp=list;
   list=list->next;
@@ -146,8 +146,7 @@ void print_node(struct node * n) {
   //print_list(list);
   }
   return list;
-
-  }*/
+}
 
 int main() {
   srand(time(NULL));
@@ -188,6 +187,9 @@ int main() {
   remove_song("Adele","Rolling In The Deep",test);
   print_list(test);
 
+  printf("Printing freed list\n");
+  test=free_list(test);
+  print_list(test);
   
   return 0;
 }
