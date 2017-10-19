@@ -37,6 +37,17 @@ void print_letter (char let) {
 
 }
 
+void print_artist(char * a) {
+  struct node * temp=src_art(a);
+  printf("%s: ",a);
+  while (a && !strcmp(a,temp->artist)) {
+    printf("%s | ",temp->name);
+    temp=temp->next;
+  }
+  printf("\n");
+  
+}
+
 void print_table() {
   int i=0;
   for (;i<26;i++){
@@ -46,6 +57,21 @@ void print_table() {
       print_list(table[i]);
     }
   }
+}
+
+void shuffle() {
+  int total=5;
+  while (total>0) {
+    int i=rand()%26;
+    if (table[i]) {
+      print_node(rand_song(table[i]));
+      total--;
+    }
+    else
+      continue;
+
+  }
+
 }
 
 int main () {
@@ -115,6 +141,10 @@ int main () {
   //print_list(table[1]);
   printf("\nall songs added!\n");
   print_table();
+  printf("\n");
+  print_artist("Radiohead");
+  printf("\n");
+  shuffle();
   
 
   return 0;
