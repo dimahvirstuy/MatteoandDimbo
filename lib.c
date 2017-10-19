@@ -74,6 +74,18 @@ void shuffle() {
 
 }
 
+void delete_node(char * name, char * artist) {
+  int tab = (int) tolower(artist[0]) - 97;
+  remove_song(artist, name, table[tab]);
+}
+
+void delete_lib() {
+  int i = 0;
+  for (i; i < 26; i++) {
+    free_list(table[i]);
+    table[i] = 0;
+  }
+}
 int main () {
 
   srand(time(NULL));
@@ -146,6 +158,7 @@ int main () {
   printf("\n");
   shuffle();
   
-
+  delete_lib();
+  print_table();
   return 0;
 }
