@@ -21,34 +21,20 @@ struct node * insert_front(struct node * old_front, char* art, char * nam) {
 struct node * insert_order(struct node * old_front, char* art, char * nam) {
   struct node * ret = old_front;
   struct node * new_node;//pointer to new node
-  //printf("made new_node\n");
   new_node=(struct node *)malloc(sizeof(struct node));//mallocs memory
-  //printf("malloc successful\n");
   strcpy(new_node->artist, art);
   strcpy(new_node->name, nam);
-  // printf("strcpy successful\n");
-  if (!old_front) {
-    //printf("first\n");
-    old_front=new_node;
-    old_front->next=0;
-    return old_front;
-  }
-  //printf("past first\n");
-
-  //if needs to be at beginning
-  if ((!strcmp(art,old_front->artist) &&
-       strcmp(nam,old_front->name)<0)//if curr artist and to be inserted artist are same and song comes first
-      ||
-      (strcmp(art,old_front->artist)<0) ){
+  
+  //if song needs to be inserted at beginning
+  if (!old_front || ((!strcmp(art,old_front->artist) &&
+		      strcmp(nam,old_front->name)<0)//if curr artist and to be inserted artist are same and song comes first
+		     ||
+		     (strcmp(art,old_front->artist)<0)) ){
     new_node->next=old_front;
     return new_node;
   }
-  
-  //printf("before while\n");
-  //struct node *prev;
+
   while (old_front) {//if old_front is null it breaks loop
-    //struct node * prev=old_front;
-    //printf("while loop started\n");
 
     //if next artist is the same and song belongs at beginning
     if (old_front->next &&
@@ -56,64 +42,34 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
 	!strcmp(art,old_front->next->artist) && //next artist matches new artist
 	(strcmp(nam,old_front->next->name)<0)) //song goes before
       {
-	//printf("experiment begins\n");
 	new_node->next=old_front->next;
 	old_front->next=new_node;
 	return ret;
       }
-    //if next artist is later alphabetically
-    else if (old_front->next &&//next exists
-	     strcmp(art,old_front->artist)>0 &&//after current artist
-	     strcmp(art,old_front->next->artist)<0)//before next artist
-      {
-	//printf("%s thing\n",art);
-	new_node->next=old_front->next;
-	old_front->next=new_node;
-	return ret;
-	}
-	     
-    //printf("past experiment\n");
 
     if (! strcmp(art, old_front->artist)) {//if artists equal
-      //printf("same artist\n");
       if (strcmp(nam, old_front->name) > 0) {//if song should be inserted after current song
-	//printf("song after\n");
 	new_node->next = old_front->next;
 	old_front->next = new_node;
 	//printf("insert_order successful if 1\n");
 	return ret;
       }
-      /*if (strcmp(nam, old_front->name)<0) {
-	new_node->next=old_front;
-	prev->next=new_node;
-	return ret;
-	}*/
       
-      else if (strcmp(art, old_front->artist)<0) {//song is at end of artist alphabetically
-	new_node->next = old_front->next;
-	old_front->next = new_node;
-	//	printf("insert_order successful if 2\n");
-	return ret;
-      }
     }
+    //if new artist needs to be inserted between artists
     //boolean is saying if (artist of song is later alphabetically than current artist AND (end of list OR next artist is later in alphabet)
     else if ((strcmp(art, old_front->artist) > 0) && ( !old_front->next || strcmp(art,old_front->next->artist)<0)) {//if new artist to be inserted is later in alphabet than current
       new_node->next = old_front->next;
       old_front->next=new_node;
-      //   printf("insert_order successful if 3\n");
       return ret;
 
     }
     old_front=old_front->next;
-    //  printf("loop gone through once\n");
   }
-  //printf("loop ended\n");
-  //means it is null
+  //insert at end
   old_front=new_node;
   old_front->next=0;
-  //  printf("insert_order successful end\n");
   return ret;
-  //new_node->next=old_front;
 
 }
 
@@ -173,13 +129,14 @@ struct node * rand_song(struct node * list) {
 
 void print_list(struct node * list) {
 
-  printf("FRONT | ");
+  //printf("FRONT | ");
   while (list) {
     printf("%s: %s | ",list->artist,list->name);
     list=list->next;
   }
 
-  printf("END\n");
+  //printf("END\n");
+  printf("\n");
 }
 
 void print_node(struct node * n) {
@@ -196,49 +153,4 @@ struct node * free_list(struct node * list) {
   return list;
 }
 
-/*int main() {
-  srand(time(NULL));
 
-  struct node * test=0;
-  printf("Printing empty list:\n");
-  print_list(test);
-  printf("\nPrinting one element list:\n");
-  test=insert_order(test, "AC\\DC","Dirty Deeds Done Dirt Cheap");
-  print_list(test);
-  insert_order(test, "AC\\DC","Problem Child");
-  insert_order(test, "Arcade Fire","Neighborhood #1 (Tunnels)");
-  insert_order(test, "Arcade Fire","Neighborhood #2 (Laika)");
-  insert_order(test,"Annie Lennox","No More I Love You's");
-  insert_order(test, "Adele","Rolling In the Deep");
-  insert_order(test, "Annie Lennox", "Take Me To The River");
-
-  printf("\nPrinting many element list:\n");
-  print_list(test);
-  printf("\n");
-
-  printf("Searching for AC\\DC Problem Child\n");
-  struct node * child=src_song("AC\\DC","Problem Child",test);
-  //printf("child made\n");
-  printf("Song is: %s | Artist is %s\n",child->name,child->artist);
-  printf("Searching for Arcade Fire\n");
-  child=src_artist("Arcade Fire",test);
-  printf("Song is: %s | Artist is %s\n",child->name,child->artist);
-  printf("Size of list is %d\n\n", list_size(test));
-
-  printf("Random songs:\n");
-  print_node(rand_song(test));
-  print_node(rand_song(test));
-  print_node(rand_song(test));
-
-  printf("Removing Problem Child and Rolling in the Deep\n");
-  remove_song("AC\\DC","Problem Child",test);
-  remove_song("Adele","Rolling In The Deep",test);
-  print_list(test);
-
-  printf("Printing freed list\n");
-  test=free_list(test);
-  print_list(test);
-  
-  return 0;
-  }
-*/
