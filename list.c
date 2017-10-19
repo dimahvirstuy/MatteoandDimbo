@@ -2,12 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "list.h"
 
-struct node{ 
-  char name[256];
-  char artist[256];
-  struct node *next;
-};
 
 struct node * insert_front(struct node * old_front, char* art, char * nam) {
   struct node * new_front;
@@ -23,29 +19,81 @@ struct node * insert_front(struct node * old_front, char* art, char * nam) {
 }
 
 struct node * insert_order(struct node * old_front, char* art, char * nam) {
+  struct node * ret = old_front;
   struct node * new_node;//pointer to new node
-  //  printf("made new_front\n");
+  //printf("made new_node\n");
   new_node=(struct node *)malloc(sizeof(struct node));//mallocs memory
-  //  printf("malloc successful\n");
+  //printf("malloc successful\n");
   strcpy(new_node->artist, art);
   strcpy(new_node->name, nam);
   // printf("strcpy successful\n");
+  if (!old_front) {
+    //printf("first\n");
+    old_front=new_node;
+    old_front->next=0;
+    return old_front;
+  }
+  //printf("past first\n");
+
+  //if needs to be at beginning
+  if ((!strcmp(art,old_front->artist) &&
+       strcmp(nam,old_front->name)<0)//if curr artist and to be inserted artist are same and song comes first
+      ||
+      (strcmp(art,old_front->artist)<0) ){
+    new_node->next=old_front;
+    return new_node;
+  }
   
+  //printf("before while\n");
+  //struct node *prev;
   while (old_front) {//if old_front is null it breaks loop
-    // printf("while loop started\n");
+    //struct node * prev=old_front;
+    //printf("while loop started\n");
+
+    //if next artist is the same and song belongs at beginning
+    if (old_front->next &&
+	strcmp(art,old_front->artist) && //current artist doesnt match new artist
+	!strcmp(art,old_front->next->artist) && //next artist matches new artist
+	(strcmp(nam,old_front->next->name)<0)) //song goes before
+      {
+	//printf("experiment begins\n");
+	new_node->next=old_front->next;
+	old_front->next=new_node;
+	return ret;
+      }
+    //if next artist is later alphabetically
+    else if (old_front->next &&//next exists
+	     strcmp(art,old_front->artist)>0 &&//after current artist
+	     strcmp(art,old_front->next->artist)<0)//before next artist
+      {
+	//printf("%s thing\n",art);
+	new_node->next=old_front->next;
+	old_front->next=new_node;
+	return ret;
+	}
+	     
+    //printf("past experiment\n");
+
     if (! strcmp(art, old_front->artist)) {//if artists equal
-      
+      //printf("same artist\n");
       if (strcmp(nam, old_front->name) > 0) {//if song should be inserted after current song
+	//printf("song after\n");
 	new_node->next = old_front->next;
 	old_front->next = new_node;
-	//	printf("insert_order successful if 1\n");
-	return new_node;
+	//printf("insert_order successful if 1\n");
+	return ret;
       }
+      /*if (strcmp(nam, old_front->name)<0) {
+	new_node->next=old_front;
+	prev->next=new_node;
+	return ret;
+	}*/
+      
       else if (strcmp(art, old_front->artist)<0) {//song is at end of artist alphabetically
 	new_node->next = old_front->next;
 	old_front->next = new_node;
 	//	printf("insert_order successful if 2\n");
-	return new_node;
+	return ret;
       }
     }
     //boolean is saying if (artist of song is later alphabetically than current artist AND (end of list OR next artist is later in alphabet)
@@ -53,8 +101,8 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
       new_node->next = old_front->next;
       old_front->next=new_node;
       //   printf("insert_order successful if 3\n");
-      return new_node;
-      //do the same as ^^^^
+      return ret;
+
     }
     old_front=old_front->next;
     //  printf("loop gone through once\n");
@@ -64,7 +112,7 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
   old_front=new_node;
   old_front->next=0;
   //  printf("insert_order successful end\n");
-  return new_node;
+  return ret;
   //new_node->next=old_front;
 
 }
@@ -140,15 +188,15 @@ void print_node(struct node * n) {
 
 struct node * free_list(struct node * list) {
   while (list) {
-  struct node * temp=list;
-  list=list->next;
-  free(temp);
-  //print_list(list);
+    struct node * temp=list;
+    list=list->next;
+    free(temp);
+    //print_list(list);
   }
   return list;
 }
 
-int main() {
+/*int main() {
   srand(time(NULL));
 
   struct node * test=0;
@@ -192,4 +240,5 @@ int main() {
   print_list(test);
   
   return 0;
-}
+  }
+*/

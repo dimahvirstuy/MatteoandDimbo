@@ -18,9 +18,11 @@ void remove_song (char* art, char* nam, struct node* list);
 
 struct node * rand_song(struct node * list);
 
+int list_size(struct node *);
+
 void print_list(struct node * list);
 
 void print_node(struct node * list);
 
 struct node * free_list(struct node * list);
-x
+
