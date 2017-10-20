@@ -33,6 +33,7 @@ struct node * src_art (char * artist) {
 
 void print_letter (char let) {
   int tab = (int) let - 97;
+  printf("%c songs\n",let);
   print_list(table[tab]);
 
 }

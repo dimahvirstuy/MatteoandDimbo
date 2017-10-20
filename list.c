@@ -147,6 +147,8 @@ struct node * free_list(struct node * list) {
   while (list) {
     struct node * temp=list;
     list=list->next;
+    printf("Freeing ");
+    print_node(temp);
     free(temp);
     //print_list(list);
   }
