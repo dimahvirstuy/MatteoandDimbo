@@ -4,7 +4,8 @@
 #include <time.h>
 #include "list.h"
 
-
+//inserts node at front
+//returns pointed to front
 struct node * insert_front(struct node * old_front, char* art, char * nam) {
   struct node * new_front;
   //printf("made new_front\n");
@@ -18,6 +19,8 @@ struct node * insert_front(struct node * old_front, char* art, char * nam) {
 
 }
 
+//inserts in order
+//returns pointer to front of list
 struct node * insert_order(struct node * old_front, char* art, char * nam) {
   struct node * ret = old_front;
   struct node * new_node;//pointer to new node
@@ -36,7 +39,7 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
 
   while (old_front) {//if old_front is null it breaks loop
 
-    //if next artist is the same and song belongs at beginning
+    //if next artist is the same and song belongs at beginning of artist
     if (old_front->next &&
 	strcmp(art,old_front->artist) && //current artist doesnt match new artist
 	!strcmp(art,old_front->next->artist) && //next artist matches new artist
@@ -56,7 +59,7 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
       }
       
     }
-    //if new artist needs to be inserted between artists
+    //if inserting a new artist that needs to be inserted between artists
     //boolean is saying if (artist of song is later alphabetically than current artist AND (end of list OR next artist is later in alphabet)
     else if ((strcmp(art, old_front->artist) > 0) && ( !old_front->next || strcmp(art,old_front->next->artist)<0)) {//if new artist to be inserted is later in alphabet than current
       new_node->next = old_front->next;
@@ -73,6 +76,7 @@ struct node * insert_order(struct node * old_front, char* art, char * nam) {
 
 }
 
+//return pointer to song
 struct node * src_song (char * art, char  * nam, struct node* list) {
   while (list) {
     if (! strcmp (list -> artist, art) && ! strcmp (list -> name, nam)) {
@@ -85,6 +89,7 @@ struct node * src_song (char * art, char  * nam, struct node* list) {
   return list;
 }
 
+//free node
 void remove_song (char* art, char* nam, struct node* list){
   while (list->next) {
     if (! strcmp(list->next->artist,art) && ! strcmp(list->next->name,nam)){
@@ -99,6 +104,7 @@ void remove_song (char* art, char* nam, struct node* list){
   
 }
 
+//return pointer to first song of artist
 struct node * src_artist (char * art, struct node* list) {
   while (list) {
     if (! strcmp(list->artist,art))
@@ -107,7 +113,7 @@ struct node * src_artist (char * art, struct node* list) {
   }
   return list;
 }
-//MAKE THIS GOOD LATER 
+//return size
 int list_size (struct node* list) {
   int i = 0;
   while (list) {
@@ -116,11 +122,11 @@ int list_size (struct node* list) {
   }
   return i;
 }
-
+//random song
 struct node * rand_song(struct node * list) {
   int i = list_size(list);
   while (list->next) {
-    if (!(rand()%i))
+    if (!(rand()%i))//modulo <length of list> gives probability 1/N of length of list, probability 1/N for each element
       return list;
     list=list->next;
   }

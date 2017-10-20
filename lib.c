@@ -6,12 +6,14 @@
 
 struct node * table[26];
 
+//initializes all table slots to NULL
 void initialize_table() {
   int i=0;
   for (;i<26;i++)
     table[i]=NULL;
 }
 
+//adds song, sets table[tab]=insert_order b/c insert_order returns pointer to start
 void add_song (char * artist, char * song) {
   int tab = (int) artist[0] - 97;
   //printf("int successful: %d\n",tab);
@@ -20,16 +22,19 @@ void add_song (char * artist, char * song) {
   return; 
 }
 
+//search for song
 struct node * src (char  * artist, char * song) {
   int tab = (int) artist[0] - 97;
   return src_song (artist, song, table[tab]);
 }
 
+//search for artist
 struct node * src_art (char * artist) {
   int tab = (int) artist[0] - 97;
   return src_artist (artist, table[tab]);
 }
 
+//print all songs for artists starting with <let>
 void print_letter (char let) {
   int tab = (int) let - 97;
   printf("%c songs\n",let);
@@ -37,6 +42,7 @@ void print_letter (char let) {
 
 }
 
+//print all songs under artist a
 void print_artist(char * a) {
   struct node * temp=src_art(a);
   printf("%s: ",a);
@@ -59,15 +65,16 @@ void print_table() {
   }
 }
 
+//return 5 songs
 void shuffle() {
   int total=5;
   while (total>0) {
-    int i=rand()%26;
-    if (table[i]) {
+    int i=rand()%26;//modulo 26 will return one of the indeces of the table. 
+    if (table[i]) {//if that slot has songs you get a random one
       print_node(rand_song(table[i]));
       total--;
     }
-    else
+    else//if that slot has no songs you redo the rand()%26
       continue;
 
   }
