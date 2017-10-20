@@ -33,7 +33,7 @@ int main () {
 
   print_list(test);
   printf("----------------------------------\n");
-  printf("Testing search for individual song\n");
+  printf("\nTesting search for individual song\n");
   printf("searching for [%s] [%s]\n","ac/dc","problem child");
   if (src_song("ac/dc","problem child",test)){
     printf("song found. ");
@@ -50,31 +50,31 @@ int main () {
     printf("not found\n");
       
   printf("----------------------------------\n");
-  printf("testing search for artist\n");
+  printf("\ntesting search for artist\n");
   printf("searching for [%s]\n","arcade fire");
   print_list(src_artist("arcade fire",test));
   printf("searching for [%s]\n","annie lennox");
   print_list(src_artist("annie lennox",test));
   printf("----------------------------------\n");
-  printf("testing size (helper)\n");
+  printf("\ntesting size (helper)\n");
   print_list(test);
   printf("size of list is %d\n", list_size(test));
   printf("----------------------------------\n");
 
-  printf("random songs:\n");
+  printf("\nrandom songs:\n");
   print_node(rand_song(test));
   print_node(rand_song(test));
   print_node(rand_song(test));
   print_node(rand_song(test));
   printf("----------------------------------\n");
-  printf("testing remove individual songs\n");
+  printf("\ntesting remove individual songs\n");
   printf("removing [%s] and [%s]\n","problem child","rolling in the deep");
   remove_song("ac/dc","problem child",test);
   remove_song("adele","rolling in the deep",test);
   print_list(test);
   printf("----------------------------------\n");
  
-  printf("testing free entire list\n");
+  printf("\ntesting free entire list\n");
   test=free_list(test);
   printf("printing free list\n");
   print_list(test);
@@ -97,30 +97,30 @@ int main () {
   add_song("birdy","beautiful lies");
   add_song("birdy","words");
   add_song("bob dylan","tombstone blues");
-  printf("\nall songs added!\n");
+  printf("all songs added!\n");
   print_table();
   printf("----------------------------------\n");
-  printf("testing print artist\n");
+  printf("\ntesting print artist\n");
   printf("printing all [%s] songs\n","radiohead");
   print_artist("radiohead");
   printf("printing all [%s] songs\n","birdy");
   print_artist("birdy");
   printf("----------------------------------\n");
-  printf("testing print letter\n");
+  printf("\ntesting print letter\n");
   print_letter('r');
   print_letter('b');
   printf("----------------------------------\n");
-  printf("shuffling\n");
+  printf("\nshuffling\n");
   shuffle();
   printf("----------------------------------\n");
-  printf("testing delete single song\n");
+  printf("\ntesting delete single song\n");
   printf("deleting [%s] [%s]","radiohead","fake plastic trees");
   delete_node("fake plastic trees","radiohead");
   printf("deleting [%s] [%s]\n","birdy","words");
   delete_node("words","birdy");
   print_table();
   printf("----------------------------------\n");
-  printf("deleting library\n");
+  printf("\ndeleting library\n");
   delete_lib();
   print_table();
   printf("----------------------------------\n");
