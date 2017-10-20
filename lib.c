@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <ctype.h>
 
 struct node * table[26];
 
@@ -14,7 +13,7 @@ void initialize_table() {
 }
 
 void add_song (char * artist, char * song) {
-  int tab = (int) tolower(artist[0]) - 97;
+  int tab = (int) artist[0] - 97;
   //printf("int successful: %d\n",tab);
   table[tab]=insert_order(table[tab],artist,song);
   //printf("insert_order successful\n");
@@ -22,12 +21,12 @@ void add_song (char * artist, char * song) {
 }
 
 struct node * src (char  * artist, char * song) {
-  int tab = (int) tolower(artist[0]) - 97;
+  int tab = (int) artist[0] - 97;
   return src_song (artist, song, table[tab]);
 }
 
 struct node * src_art (char * artist) {
-  int tab = (int) tolower(artist[0]) - 97;
+  int tab = (int) artist[0] - 97;
   return src_artist (artist, table[tab]);
 }
 
@@ -75,7 +74,7 @@ void shuffle() {
 }
 
 void delete_node(char * name, char * artist) {
-  int tab = (int) tolower(artist[0]) - 97;
+  int tab = (int) artist[0] - 97;
   remove_song(artist, name, table[tab]);
 }
 
