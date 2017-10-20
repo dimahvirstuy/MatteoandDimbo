@@ -10,3 +10,4 @@ run:
 	./music
 clean:
 	rm *.o
+	rm music
