@@ -22,7 +22,7 @@ int main () {
   test=insert_front(test, "ac/dc","dirty deeds done dirt cheap");
   print_list(test);
   printf("----------------------------------\n");
-  printf("\nTesting insert_order:\n");
+  printf("\nTesting insert_order and print_list:\n");
   insert_order(test, "ac/dc","problem child");
   insert_order(test, "arcade fire","neighborhood #1 (tunnels)");
   insert_order(test, "arcade fire","neighborhood #2 (laika)");
@@ -84,7 +84,7 @@ int main () {
   
   printf("\nTESTING TABLE\n\n");
   printf("----------------------------------\n");
-  printf("Testing add song\n");
+  printf("Testing add song and print_library\n");
   add_song("the beatles","here comes the sun");
   add_song("the beatles","yesterday");
   add_song("robert plant","house of love");
@@ -110,11 +110,43 @@ int main () {
   print_letter('r');
   print_letter('b');
   printf("----------------------------------\n");
+  printf("\ntesting search song\n");
+  printf("searching for [%s] [%s]\n","bon iver","skinny love");
+  if (src("bon iver","skinny love")){
+    printf("song found. ");
+  print_node(src("bon iver","skinny love"));
+  }
+  else
+    printf("not found\n");
+  printf("searching for [%s] [%s]\n","bon iver","flume");
+  if (src("bon iver","flume")){
+    printf("song found. ");
+    print_node(src("bon iver","flume"));
+  }
+  else
+    printf("not found\n");
+  printf("----------------------------------\n");
+  printf("\ntesting search for artist\n");
+  printf("searching for [%s]\n","bob dylan");
+  if (src_art("bob dylan")){
+    printf("artist found. ");
+  print_list(src_art("bob dylan"));
+  }
+  else
+    printf("not found\n");
+  printf("searching for [%s]\n","led zeppelin");
+  if (src_art("led zeppelin")){
+    printf("song found. ");
+    print_list(src_art("led zeppelin"));
+  }
+  else
+    printf("not found\n");
+  printf("----------------------------------\n");
   printf("\nshuffling\n");
   shuffle();
   printf("----------------------------------\n");
   printf("\ntesting delete single song\n");
-  printf("deleting [%s] [%s]","radiohead","fake plastic trees");
+  printf("deleting [%s] [%s]\n","radiohead","fake plastic trees");
   delete_node("fake plastic trees","radiohead");
   printf("deleting [%s] [%s]\n","birdy","words");
   delete_node("words","birdy");

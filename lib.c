@@ -65,6 +65,8 @@ void print_table() {
   }
 }
 
+
+
 //return 5 songs
 void shuffle() {
   int total=5;

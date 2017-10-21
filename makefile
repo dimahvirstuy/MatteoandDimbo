@@ -6,7 +6,7 @@ lib.o: lib.c lib.h
 	gcc -c lib.c
 main.o: main.c lib.h list.h
 	gcc -c main.c
-run:
+run: all
 	./music
 clean:
 	rm *.o
