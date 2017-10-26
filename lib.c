@@ -46,7 +46,7 @@ void print_letter (char let) {
 void print_artist(char * a) {
   struct node * temp=src_art(a);
   printf("%s: ",a);
-  while (a && !strcmp(a,temp->artist)) {
+  while (temp && !strcmp(a,temp->artist)) {
     printf("%s | ",temp->name);
     temp=temp->next;
   }
